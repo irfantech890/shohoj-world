@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shohoj World Admin</title>
+    
+    <!-- Telegram Web App API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- ✅ Adsgram Script (GigaPub সরিয়ে এটি বসানো হয়েছে) -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 80px; user-select: none; }
+        .gradient-card { background: linear-gradient(135deg, #5b51d8 0%, #8364e8 100%); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-item.active { color: #6b46c1; }
+        .nav-item { color: #9ca3af; transition: color 0.2s; }
+    </style>
+</head>
+<body>
+
+    <!-- Header (আপনার আগের ডিজাইন) -->
+    <div class="flex items-center justify-between p-4 bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold border border-blue-200">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-gray-800 text-sm flex items-center gap-1">Shohoj World Admin <i class="fas fa-check-circle text-blue-500 text-xs"></i></h3>
+                <p class="text-xs text-gray-500 font-semibold" id="headerName">Loading...</p>
+            </div>
+        </div>
+        <span class="bg-blue-50 text-blue-600 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm border border-blue-100"><i class="fas fa-bolt mr-1"></i> Active</span>
+    </div>
+
+    <!-- ================= HOME TAB ================= -->
+    <div id="tab-home" class="tab-content active p-4 space-y-4">
+        <div class="gradient-card rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+            <p class="text-xs font-semibold tracking-wider opacity-90 mb-1">PROFIT WALLET</p>
+            <h1 class="text-4xl font-extrabold mb-3 text-yellow-400">BDTO <span id="mainBalance" class="text-white">0.00</span></h1>
+            <p class="text-xs bg-white/20 inline-block px-3 py-1.5 rounded-lg backdrop-blur-sm border border-white/20">Total Wallet: BDTO <span id="totalWallet">0.00</span></p>
+            <i class="fas fa-robot text-6xl absolute -right-2 -bottom-2 opacity-20"></i>
+        </div>
+
+        <div class="flex space-x-3">
+            <button onclick="switchTab('earn')" class="w-1/2 bg-teal-500 text-white font-bold py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2">
+                <i class="fas fa-play"></i> Start Task
+            </button>
+            <button onclick="switchTab('wallet')" class="w-1/2 bg-white text-teal-600 border-2 border-teal-500 font-bold py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2">
+                <i class="fas fa-wallet"></i> Withdraw
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div onclick="switchTab('earn')" class="bg-white p-4 rounded-2xl shadow-sm border text-center flex flex-col items-center">
+                <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center mb-2"><i class="fas fa-play-circle text-purple-600 text-2xl"></i></div>
+                <span class="text-[11px] font-bold text-gray-600">ADS EARN</span>
+            </div>
+            <div onclick="tg.showAlert('Telegram Tasks Coming Soon!')" class="bg-white p-4 rounded-2xl shadow-sm border text-center flex flex-col items-center">
+                <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-2"><i class="fab fa-telegram-plane text-blue-500 text-2xl"></i></div>
+                <span class="text-[11px] font-bold text-gray-600">TG TASKS</span>
+            </div>
+            <div onclick="switchTab('refer')" class="bg-white p-4 rounded-2xl shadow-sm border text-center flex flex-col items-center">
+                <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center mb-2"><i class="fas fa-gift text-orange-500 text-2xl"></i></div>
+                <span class="text-[11px] font-bold text-gray-600">REFERRAL</span>
+            </div>
+            <div onclick="tg.openTelegramLink('https://t.me/gigapubupdate2026_bot')" class="bg-white p-4 rounded-2xl shadow-sm border text-center flex flex-col items-center">
+                <div class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mb-2"><i class="fas fa-headset text-red-500 text-2xl"></i></div>
+                <span class="text-[11px] font-bold text-gray-600">SUPPORT</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= EARN (ADS) TAB ================= -->
+    <div id="tab-earn" class="tab-content p-4 space-y-4">
+        <div class="gradient-card rounded-2xl p-6 text-white text-center shadow-lg">
+            <h2 class="text-xl font-bold mb-1">ADS TASK CENTER</h2>
+            <p class="text-xs opacity-90">Watch ads to grow your profit wallet instantly</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border">
+                <i class="far fa-clock text-gray-400 mb-1"></i>
+                <p class="text-[10px] text-gray-500 font-bold">REWARD</p>
+                <p class="font-bold text-gray-800">BDTO <span id="configReward">1.00</span></p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border">
+                <i class="fas fa-bolt text-purple-400 mb-1"></i>
+                <p class="text-[10px] text-gray-500 font-bold">DAILY LIMIT</p>
+                <p class="font-bold text-gray-800"><span id="configLimit">60</span> Ads</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div class="flex justify-between text-xs font-bold text-gray-500 mb-2">
+                <span>Task Completion</span>
+                <span><span id="adsDone">0</span>/<span id="configLimit2">60</span></span>
+            </div>
+            <div class="w-full bg-gray-100 rounded-full h-2 mb-6">
+                <div id="progressBar" class="bg-purple-600 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+
+            <button id="watchAdBtn" onclick="watchAd()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-md flex justify-center items-center gap-2">
+                WATCH AD & EARN <i class="fas fa-play-circle"></i>
+            </button>
+            <p id="timerMsg" class="mt-3 text-red-500 text-xs font-bold hidden"></p>
+        </div>
+    </div>
+
+    <!-- ================= REFER TAB (আপনার আগের ডিজাইন) ================= -->
+    <div id="tab-refer" class="tab-content p-4 space-y-4">
+        <div class="gradient-card rounded-2xl p-6 text-white text-center shadow-lg">
+            <i class="fas fa-gift text-3xl mb-2 text-yellow-300"></i>
+            <h2 class="text-2xl font-bold mb-1">Invite & Earn</h2>
+            <p class="text-xs opacity-90">Share with friends and get commission</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border">
+                <p class="text-2xl font-bold text-gray-800" id="refCountDisplay">0</p>
+                <p class="text-[10px] text-gray-500 font-bold mt-1 uppercase">Total Referrals</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border">
+                <p class="text-2xl font-bold text-gray-800">5%</p>
+                <p class="text-[10px] text-gray-500 font-bold mt-1 uppercase">Bonus Rate</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs font-bold text-gray-600 mb-2"><i class="fas fa-link"></i> Your Referral Link</p>
+            <div class="flex items-center gap-2 mb-4">
+                <input type="text" value="https://t.me/gigapubupdate2026_bot" readonly class="w-full bg-gray-50 border p-3 rounded-lg text-xs text-gray-600 outline-none">
+            </div>
+            <button onclick="addFakeReferral()" class="w-full bg-blue-500 text-white font-bold py-3 rounded-xl shadow-md flex justify-center items-center gap-2">
+                <i class="fab fa-telegram-plane"></i> Share on Telegram
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= WALLET (WITHDRAW) TAB ================= -->
+    <div id="tab-wallet" class="tab-content p-4 space-y-4">
+        <div class="gradient-card rounded-2xl p-6 text-white shadow-lg text-center">
+            <p class="text-xs opacity-90 mb-1">Available for Withdrawal</p>
+            <h1 class="text-4xl font-bold mb-2">BDTO <span id="withdrawBalance">0.00</span></h1>
+            <p class="text-[10px] bg-white/20 inline-block px-3 py-1 rounded-full"><i class="fas fa-users"></i> Your Referrals: <span id="withdrawRef">0</span></p>
+        </div>
+
+        <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl flex gap-3 text-yellow-700 text-xs shadow-sm">
+            <i class="fas fa-shield-alt mt-0.5"></i>
+            <p>Minimum <span id="configMinRef">5</span> referrals are required to unlock withdrawal.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+            <div>
+                <label class="text-xs font-bold text-gray-600 mb-1 block"><i class="fas fa-wallet"></i> Account / Address</label>
+                <input type="text" placeholder="Enter your Bkash/Nagad number" class="w-full border-b-2 border-gray-200 p-2 text-sm focus:border-blue-500 outline-none transition">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-600 mb-1 block"><i class="fas fa-dollar-sign"></i> Withdrawal Amount (BDTO)</label>
+                <input type="number" id="withdrawInput" placeholder="Enter amount to withdraw" class="w-full border-b-2 border-gray-200 p-2 text-sm focus:border-blue-500 outline-none transition">
+            </div>
+            <button onclick="submitWithdraw()" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-md mt-2 flex justify-center items-center gap-2">
+                Submit Withdrawal <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 w-full bg-white flex justify-around px-2 py-3 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] border-t z-50 rounded-t-2xl">
+        <div onclick="switchTab('home')" id="nav-home" class="nav-item active flex flex-col items-center cursor-pointer p-2 w-16">
+            <i class="fas fa-home text-xl mb-1"></i><span class="text-[10px] font-bold">Home</span>
+        </div>
+        <div onclick="switchTab('earn')" id="nav-earn" class="nav-item flex flex-col items-center cursor-pointer p-2 w-16">
+            <i class="fas fa-play-circle text-xl mb-1"></i><span class="text-[10px] font-bold">Earn</span>
+        </div>
+        <div onclick="switchTab('refer')" id="nav-refer" class="nav-item flex flex-col items-center cursor-pointer p-2 w-16">
+            <i class="fas fa-gift text-xl mb-1"></i><span class="text-[10px] font-bold">Refer</span>
+        </div>
+        <div onclick="switchTab('wallet')" id="nav-wallet" class="nav-item flex flex-col items-center cursor-pointer p-2 w-16">
+            <i class="fas fa-wallet text-xl mb-1"></i><span class="text-[10px] font-bold">Wallet</span>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        // App Configurations
+        const CONFIG = {
+            rewardPerAd: 1.00,  
+            dailyLimit: 60,     
+            minReferrals: 5     
+        };
+
+        // ✅ Adsgram Initialization (আপনার Block ID এখানে বসাবেন)
+        const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID_HERE"; 
+        let AdController = null;
+
+        if (window.Adsgram) {
+            AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+        }
+
+        // User Data
+        let user = JSON.parse(localStorage.getItem('gigaPubUser')) || {
+            balance: 0.00,
+            adsDone: 0,
+            referrals: 0,
+            lastDate: new Date().toDateString()
+        };
+
+        if (user.lastDate !== new Date().toDateString()) {
+            user.adsDone = 0;
+            user.lastDate = new Date().toDateString();
+            saveData();
+        }
+
+        function initApp() {
+            const userName = tg.initDataUnsafe?.user?.first_name || "Guest User";
+            document.getElementById('headerName').innerText = userName;
+
+            document.getElementById('configReward').innerText = CONFIG.rewardPerAd.toFixed(2);
+            document.getElementById('configLimit').innerText = CONFIG.dailyLimit;
+            document.getElementById('configLimit2').innerText = CONFIG.dailyLimit;
+            document.getElementById('configMinRef').innerText = CONFIG.minReferrals;
+
+            updateUI();
+        }
+
+        function saveData() {
+            localStorage.setItem('gigaPubUser', JSON.stringify(user));
+            updateUI();
+        }
+
+        function updateUI() {
+            const bal = user.balance.toFixed(2);
+            document.getElementById('mainBalance').innerText = bal;
+            document.getElementById('totalWallet').innerText = bal;
+            document.getElementById('withdrawBalance').innerText = bal;
+            
+            document.getElementById('adsDone').innerText = user.adsDone;
+            document.getElementById('refCountDisplay').innerText = user.referrals;
+            document.getElementById('withdrawRef').innerText = user.referrals;
+
+            const progress = (user.adsDone / CONFIG.dailyLimit) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+        }
+
+        // ==========================================
+        // 🎯 ✅ Adsgram Ad Logic Integration 
+        // ==========================================
+        function watchAd() {
+            if (user.adsDone >= CONFIG.dailyLimit) {
+                return tg.showAlert("Daily ad limit reached! Come back tomorrow.");
+            }
+
+            const btn = document.getElementById('watchAdBtn');
+            const msg = document.getElementById('timerMsg');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            msg.innerText = "Loading Advertisement...";
+            msg.classList.remove('hidden');
+
+            // Adsgram Ad শো করানো
+            if (AdController) {
+                AdController.show()
+                  .then(() => {
+                      // ইউজার সফলভাবে Ad দেখলে
+                      msg.classList.add('hidden');
+                      btn.disabled = false;
+                      btn.classList.remove('opacity-50');
+
+                      user.balance += CONFIG.rewardPerAd;
+                      user.adsDone += 1;
+                      saveData();
+
+                      tg.HapticFeedback.notificationOccurred('success');
+                      tg.showAlert(`Task Completed! Earned BDTO ${CONFIG.rewardPerAd.toFixed(2)}`);
+                  })
+                  .catch((result) => {
+                      // ইউজার Ad কেটে দিলে বা Ad লোড না হলে
+                      msg.classList.add('hidden');
+                      btn.disabled = false;
+                      btn.classList.remove('opacity-50');
+                      
+                      if (result.error) {
+                          tg.showAlert("No ads available right now. Try again later.");
+                      } else {
+                          tg.showAlert("You closed the ad before finishing. No reward given!");
+                      }
+                  });
+            } else {
+                msg.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+                tg.showAlert("Adsgram is not initialized correctly.");
+            }
+        }
+
+        function submitWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawInput').value);
+
+            if (user.referrals < CONFIG.minReferrals) {
+                return tg.showAlert(`You need at least ${CONFIG.minReferrals} referrals to withdraw! You have ${user.referrals}.`);
+            }
+            if (!amount || amount <= 0 || amount > user.balance) {
+                return tg.showAlert("Invalid amount or insufficient balance!");
+            }
+
+            user.balance -= amount;
+            document.getElementById('withdrawInput').value = '';
+            saveData();
+
+            tg.HapticFeedback.notificationOccurred('success');
+            tg.showAlert(`Withdrawal of BDTO ${amount} submitted successfully! Please wait for admin approval.`);
+        }
+
+        function addFakeReferral() {
+            // Note: For real production, use backend referral system
+            user.referrals += 1;
+            saveData();
+            tg.openTelegramLink('https://t.me/share/url?url=https://t.me/gigapubupdate2026_bot&text=Join%20and%20earn%20money!');
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
